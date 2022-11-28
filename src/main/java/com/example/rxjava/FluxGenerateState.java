@@ -9,11 +9,14 @@ public class FluxGenerateState {
                 (counter, sink) -> {
                     String country = Util.getFaker().country().name();
                     sink.next(country);
+                    System.out.println("Emitting country : "+country);
                     if(counter >= 10 || country.equals("Canada")){
                         sink.complete();
                     }
                     return counter+1;
                 }
-        ).subscribe(Util.subscriber());
+        )
+                .take(3)
+                .subscribe(Util.subscriber());
     }
 }
